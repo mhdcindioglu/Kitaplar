@@ -1,0 +1,43 @@
+﻿@page "/Kitapler/Ekleme"
+@page "/Kitapler/Ekleme/{ID}"
+
+@using Kitaplar.Shared.Model
+@inject IKitapService KitapSrv
+@inject NavigationManager NavMngr
+
+<EditForm Model="@kitap" OnValidSubmit="OnSave">
+    <div class="mb-2 row">
+        <label class="form-label col-4">Tanimi</label>
+        <InputText @bind-Value="@kitap.Tanimi" class="col-8 form-control" />
+    </div>
+    <div class="mb-2 row">
+        <label class="form-label col-4">Konu</label>
+        <InputText @bind-Value="@kitap.Konu" class="col-8 form-control" />
+    </div>
+    <div class="mb-2 row">
+        <label class="form-label col-4">Çıkış Yılı</label>
+        <InputNumber @bind-Value="@kitap.CikisYili" class="col-8 form-control" />
+    </div>
+
+    <button class="btn btn-primary">Kayd Et</button>
+    <a class="btn btn-seconday" href="/Kitaplar">Iptal</a>
+</EditForm>
+
+@code {
+    [Parameter] public Kitap kitap { get; set; } = new();
+    [Parameter] public int? ID { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+
+    async Task OnSave()
+    {
+        if (kitap.ID == 0)
+            await KitapSrv.Ekleme(kitap);
+        else
+            await KitapSrv.Update(kitap);
+        NavMngr.NavigateTo("/Kitaplar");
+    }
+}

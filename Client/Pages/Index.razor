@@ -1,4 +1,8 @@
 ﻿@page "/"
+@using Kitaplar.Client.Services
+@using Kitaplar.Shared.Model
+
+@inject IKitapService KitapSrv
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +11,20 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+
+<ul>
+    @foreach (var Kitap in Kitaplar)
+    {
+        <li>@(Kitap.Tanimi)</li>
+    }
+</ul>
+
+@code {
+    Kitap[] Kitaplar = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        Kitaplar = await KitapSrv.Kitaplar();
+    }
+}

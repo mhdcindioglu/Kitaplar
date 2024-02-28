@@ -1,0 +1,38 @@
+﻿@page "/Kitaplar"
+@inject NavigationManager NavMngr
+<h3>Kitapler</h3>
+
+<button class="btn btn-primary" @onclick="Ekle">Exle</button>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Konu</th>
+                <th>Sınır</th>
+                <th>Tanimi</th>
+                <th>Çıkış Tarihi</th>
+                <th>Sahifa Adedi</th>
+                <th>Sahifa Adedi</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _Kitapler)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.Konu</td>
+                    <td>@item.Sinif</td>
+                    <td>@item.Tanimi</td>
+                    <td>@item.CikisYili</td>
+                    <td>@item.SahifaAdedi</td>
+                    <td>@item.Tarih</td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="@(() => Sil(item))">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
