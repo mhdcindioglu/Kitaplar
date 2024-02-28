@@ -21,6 +21,20 @@ public class KitapService(HttpClient Client) : IKitapService
             throw;
         }
     }
+    public async Task<Kitap?> Kitap(int id)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"/api/kitaplar/Kitap/{id}");
+            var content = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<Kitap?>(content, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
 
     public async Task Ekleme(Kitap kitap)
     {
@@ -69,6 +83,7 @@ public class KitapService(HttpClient Client) : IKitapService
 public interface IKitapService
 {
     Task<Kitap[]> Kitaplar();
+    Task<Kitap?> Kitap(int id);
     Task Ekleme(Kitap kitap);
     Task Update(Kitap kitap);
     Task Sil(int id);

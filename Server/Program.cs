@@ -1,4 +1,6 @@
+using Kitaplar.Server.Data;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 namespace Kitaplar;
@@ -8,7 +10,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
+        var CS = builder.Configuration["ConnectionStrings:CS"];
+        builder.Services.AddDbContext<KitapDB>(option => option.UseSqlServer(CS));
         // Add services to the container.
 
         builder.Services.AddControllersWithViews();

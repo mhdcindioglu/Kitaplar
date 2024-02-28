@@ -26,7 +26,8 @@ namespace Kitaplar.Client.Pages
         {
             try
             {
-                _Kitapler.Remove(kitap);
+                await KitapService.Sil(kitap.ID);
+                await Fill();
             }
             catch (Exception ex)
             {

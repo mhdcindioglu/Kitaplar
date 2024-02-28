@@ -1,43 +1,63 @@
 ﻿@page "/Kitapler/Ekleme"
-@page "/Kitapler/Ekleme/{ID}"
+@page "/Kitapler/Ekleme/{ID:int}"
 
 @using Kitaplar.Shared.Model
 @inject IKitapService KitapSrv
 @inject NavigationManager NavMngr
 
-<EditForm Model="@kitap" OnValidSubmit="OnSave">
-    <div class="mb-2 row">
-        <label class="form-label col-4">Tanimi</label>
-        <InputText @bind-Value="@kitap.Tanimi" class="col-8 form-control" />
-    </div>
-    <div class="mb-2 row">
-        <label class="form-label col-4">Konu</label>
-        <InputText @bind-Value="@kitap.Konu" class="col-8 form-control" />
-    </div>
-    <div class="mb-2 row">
-        <label class="form-label col-4">Çıkış Yılı</label>
-        <InputNumber @bind-Value="@kitap.CikisYili" class="col-8 form-control" />
-    </div>
+@if (kitap != null)
+{
+    <EditForm Model="@kitap" OnValidSubmit="OnSave">
+        <div class="mb-2 row">
+            <label class="form-label col-4">Tanimi</label>
+            <InputText @bind-Value="@kitap.Tanimi" class="col-8 form-control" />
+        </div>
+        <div class="mb-2 row">
+            <label class="form-label col-4">Konu</label>
+            <InputText @bind-Value="@kitap.Konu" class="col-8 form-control" />
+        </div>
+        <div class="mb-2 row">
+            <label class="form-label col-4">Çıkış Yılı</label>
+            <InputNumber @bind-Value="@kitap.CikisYili" class="col-8 form-control" />
+        </div>
 
-    <button class="btn btn-primary">Kayd Et</button>
-    <a class="btn btn-seconday" href="/Kitaplar">Iptal</a>
-</EditForm>
+        <div class="mb-2 row">
+            <label class="form-label col-4">Yazar</label>
+            <InputNumber @bind-Value="@kitap.YazarID" class="col-8 form-control" />
+        </div>
+
+        <button class="btn btn-primary">Kayd Et</button>
+        <a class="btn btn-seconday" href="/Kitaplar">Iptal</a>
+    </EditForm>
+}
 
 @code {
-    [Parameter] public Kitap kitap { get; set; } = new();
+    [Parameter] public Kitap? kitap { get; set; } = new();
     [Parameter] public int? ID { get; set; }
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        return base.OnInitializedAsync();
+        if (!ID.HasValue)
+        {
+            //Create
+        }
+        else
+        {
+            //Update
+            kitap = await KitapSrv.Kitap(ID.Value);
+            if (kitap == null)
+            {
+                NavMngr.NavigateTo("/Kitaplar");
+            }
+        }
     }
 
     async Task OnSave()
     {
-        if (kitap.ID == 0)
+        if (kitap!.ID == 0)
             await KitapSrv.Ekleme(kitap);
         else
-            await KitapSrv.Update(kitap);
+            await KitapSrv.Update(kitap!);
         NavMngr.NavigateTo("/Kitaplar");
     }
 }
