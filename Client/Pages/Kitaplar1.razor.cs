@@ -10,6 +10,7 @@ namespace Kitaplar.Client.Pages
         [Inject] public IKitapService KitapService { get; set; } = default!;
 
         List<Kitap> _Kitapler = [];
+        Kitap? kitap { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -34,6 +35,26 @@ namespace Kitaplar.Client.Pages
 
             }
         }
-        void Ekle() => NavMngr.NavigateTo("/Kitapler/Ekleme");
+
+        async Task OnSave()
+        {
+            if (kitap!.ID == 0)
+                await KitapSrv.Ekleme(kitap);
+            else
+                await KitapSrv.Update(kitap!);
+            kitap = null;
+            await Fill();
+        }
+        void Ekle()
+        {
+            kitap = new Kitap();
+        }
+
+        void Update(Kitap kitap)
+        {
+            this.kitap = kitap;
+        }
+
+        void Close() => kitap = null;
     }
 }

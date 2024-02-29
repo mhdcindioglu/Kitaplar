@@ -5,31 +5,7 @@
 @inject IKitapService KitapSrv
 @inject NavigationManager NavMngr
 
-@if (kitap != null)
-{
-    <EditForm Model="@kitap" OnValidSubmit="OnSave">
-        <div class="mb-2 row">
-            <label class="form-label col-4">Tanimi</label>
-            <InputText @bind-Value="@kitap.Tanimi" class="col-8 form-control" />
-        </div>
-        <div class="mb-2 row">
-            <label class="form-label col-4">Konu</label>
-            <InputText @bind-Value="@kitap.Konu" class="col-8 form-control" />
-        </div>
-        <div class="mb-2 row">
-            <label class="form-label col-4">Çıkış Yılı</label>
-            <InputNumber @bind-Value="@kitap.CikisYili" class="col-8 form-control" />
-        </div>
 
-        <div class="mb-2 row">
-            <label class="form-label col-4">Yazar</label>
-            <InputNumber @bind-Value="@kitap.YazarID" class="col-8 form-control" />
-        </div>
-
-        <button class="btn btn-primary">Kayd Et</button>
-        <a class="btn btn-seconday" href="/Kitaplar">Iptal</a>
-    </EditForm>
-}
 
 @code {
     [Parameter] public Kitap? kitap { get; set; } = new();

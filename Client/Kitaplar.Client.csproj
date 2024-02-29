@@ -6,6 +6,9 @@
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Pages\KitapEkleme.razor" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Shared\Kitaplar.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
